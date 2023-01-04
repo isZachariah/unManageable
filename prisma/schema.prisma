@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Reading {
+    id          String   @id @default(cuid())
+    number      Int
+    title       String
+    reading     String
+}
+
+model Reflection {
+    id          String   @id @default(cuid())
+    month       String
+    day         Int
+    date        DateTime
+    title       String
+    quotation   String
+    citation    String
+    reading     String
+}
+
+model Prayer {
+    id        String   @id @default(cuid())
+    title     String
+    author    String
+    year      Int
+    step      Int
+    prayer    String
+}
+
+model BigBook {
+    id          String   @id @default(cuid())
+    chapter     String
+    title       String
+    paragraph   Int
+    body        String
+}
+
+model Steps {
+    id          String   @id @default(cuid())
+    number      Int
+    step        String
+}
+
+model Traditions {
+    id          String   @id @default(cuid())
+    number      Int
+    tradition   String
+}
