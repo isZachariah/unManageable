@@ -9,7 +9,7 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className={"flex min-h-screen flex-col items-center justify-center bg-slate-800"} style={{fontFamily: "Arvo"}}>
+    <div className={"flex min-h-screen w-screen flex-col items-center justify-center bg-slate-800"} style={{fontFamily: "Arvo"}}>
       <Navbar />
       { children }
       <Footer />

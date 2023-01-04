@@ -6,13 +6,14 @@ export const reflectionsRouter = router({
     .input(
       z.object({
         query: z.string().optional(),
+        month: z.string().optional(),
         cursor: z.string().optional(),
         limit: z.number().min(1).max(100).default(12)
       })
     )
     .query(async ({ctx, input}) => {
       const { prisma } = ctx
-      const { query, cursor, limit } = input
+      const { query, month, cursor, limit } = input
 
       const reflections = await prisma.reflection.findMany({
         take: limit + 1,
@@ -33,7 +34,12 @@ export const reflectionsRouter = router({
               title: {
                 contains: query
               }
-            }
+            },
+            {
+              month: {
+                contains: query
+              }
+            },
           ]
         },
         orderBy: [
@@ -49,11 +55,35 @@ export const reflectionsRouter = router({
         const nextItem = reflections.pop() as typeof reflections[number]
         nextCursor = nextItem.id
       }
-
       return {
         reflections,
         nextCursor,
       }
+    }),
+  today: publicProcedure
+    .input(
+      z.object({
+        date: z.date()
+      })
+    )
+    .query(async ({ctx, input}) => {
+      const { prisma } = ctx
+      const { date } = input
 
+      const reflection = await prisma.reflection.findFirst({
+        where: {
+          AND: [
+            {
+              day: date.getDate()
+            },
+            {
+              month: date.toLocaleString('default', { month: 'long' })
+            }
+          ]
+        }
+      })
+      return {
+        reflection
+      }
     })
 })

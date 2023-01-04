@@ -59,6 +59,14 @@ export type BigBook = {
   body: string
 }
 
+export const zCHAPTERS = z
+  .enum([
+    `Bill's Story`, `There is a Solution`, `We Agnostics`,
+    `How it Works`, `Into Action`, `Working With Others`,
+    `To Wives`, `The Family Afterward`, `To Employers`,
+    `A Vision For You`
+  ])
+
 export const stepsSchema = z.object({
   number: z.number(),
   step: z.string(),
